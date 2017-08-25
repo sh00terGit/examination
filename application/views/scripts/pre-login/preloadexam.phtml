@@ -1,0 +1,141 @@
+<div class="container">
+    <div class="col-sm-12">
+    <div class="h4 text-uppercase text-center">Экзамен:
+        <i><?= $this->exam->getFname() ?></i>
+    </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="row h5">
+            <div class= "col-sm-2">
+                <strong> даты проведения:</strong>
+            </div>
+            <div class= "col-sm-10">
+                <?= $this->schedule->getDateStart() ?> - <?= $this->schedule->getDateStart() ?>
+            </div>
+        </div>
+    
+
+    <!-- Комиссия-->    
+    <?php if ($this->exam->getCommittee() != null) { ?>
+        <div class="row h5">
+            <div class= "col-sm-2">
+                <strong> Комиссия :</strong>
+            </div>
+            <div class= "col-sm-10">
+                <?= $this->exam->getCommittee() ?>
+            </div>
+        </div>
+    <?php } ?>
+    <!--  /Комиссия-->    
+
+
+    <!-- Экзаменатор-->    
+    <div class="row h5">
+        <div class= "col-sm-2">
+            <strong> Экзаменатор :</strong> 
+        </div>
+        <div class= "col-sm-4">
+            <?= $this->exam->getManager()->getFIO() ?>
+            &nbsp;&nbsp; 
+            <?= $this->schedule->getManager()->getDivision()->getSname() ?> 
+        </div>
+    </div>
+    <!-- / Экзаменатор-->    
+
+
+    <?php if ($this->schedule->getTimePass() != 0) { ?>
+        <div class="row h5">
+            <div class= "col-sm-2">
+                <strong> Время на сдачу экзамена :</strong>
+            </div>
+            <div class= "col-sm-4">
+                <?= $this->schedule->getTimePass() ?>&nbsp;мин.
+            </div>
+        </div>
+
+    <?php } ?> 
+
+
+
+    <div id="blockAttempt" class="row h5" style="display: none;">
+        <div class= "col-sm-2">
+            <strong> Попыток :</strong>
+        </div>
+        <div class= "col-sm-4" id ="attempt"> 
+        </div>
+    </div>
+
+
+
+
+    <?php if ($this->errorNoUsers == false) { ?>
+        <!--Регистрация-->
+        <div class="row h5" style="padding-top: 50px;">
+            <div class= "col-sm-2">
+                <strong><?= $this->schedule->getAuthType() ?> регистрация </strong>
+            </div>
+
+            <div class="col-sm-10 ">
+                <?= $this->form ?>
+            </div>
+        </div>
+        <!--  /Регистрация-->
+    <?php } else { ?>
+        <div class="row h4" style="padding-top: 50px;">
+            <div class= "col-sm-12 text-center">
+                <strong class="text-danger">Нет добавленных пользователей на экзамен </strong>
+            </div>
+        </div> 
+    <?php } ?>
+    <a  class="btn-default btn pull-left"  style="text-decoration: none"
+        href="<?= $this->url(array('controller' => 'pre-login', 'action' => 'index'), 'default'); ?>">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;&nbsp;Назад</a>
+</div>
+
+
+
+
+<script>
+    $(document).ready(function () {
+        $('select[data-type~="parent"]').change(function () {
+            var parent_id = $(this).val();
+            if (parent_id == '') {
+                $("#blockAttempt").css("display", "none");
+            } else {
+                $("#blockAttempt").css("display", "block");
+                
+            
+            $.get(
+                    '/PreLogin/select',
+                    data = {"parent_id": parent_id, "schedule_id": <?= $this->schedule->getId() ?>},
+                    function (result) {
+                        if (result.type === 'error') {
+                            alert("При выполнении запроса произошла ошибка :(");
+                            return(false);
+                        } else {
+                            switch (result) {
+                                case "-1" :
+                                    result = 'без ограничений';
+                                    $('#submit').attr("disabled", false);
+                                    break;
+                                case "0" :
+                                     result = '<strong>Вы исчерпали все попытки, свяжитесь с экзаменатором </strong>';
+                                     $("#submit").attr("disabled", true);
+                                     break;
+                                 default:
+                                     $('#submit').attr("disabled", false);
+                                     break;
+                            }
+                            $("#attempt").html(result);
+
+                        }
+                    },
+                    "json"
+                    );
+        }
+
+        });
+        
+    });
+</script>
+

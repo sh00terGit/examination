@@ -1,0 +1,12 @@
+<form action="<?= $this->escape($this->form->getAction()) ?>"
+      method="<?= $this->escape($this->form->getMethod()) ?>">
+    <div class="col-sm-6">
+        <?=$this->form->level1?>
+    </div>
+    <div class="col-sm-6">
+        <?=$this->form->level2?>        
+    </div>
+    <div class="clearfix"></div>
+    <?=$this->form->submit?>
+</form>
+

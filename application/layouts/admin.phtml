@@ -1,0 +1,208 @@
+<!DOCTYPE html> 
+<html>
+    <head>
+        <title>АС ЭКЗАМЕНТАТОР</title>
+        <!-- Bootstrap -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link href="/css/bootstrap.min.css" rel="stylesheet">
+        <!--[if lte IE 9]>
+            <script src="/js/html5shiv.js"></script>
+            <script src="/js/respond.min.js"></script>
+        <![endif]-->
+        <script src="/js/jquery-1.12.3.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+
+
+    </head>
+    <body>
+        <div class="header" 
+             style="background: url(/img/head.jpg) 100% 100% no-repeat; background-size:cover; height: 80px;">
+            <div class="clearfix"></div>
+
+
+            <div class="text-center">
+                <h1 class="text-info"><strong><em>АС "ЭКЗАМЕНАТОР"</em></strong></h1>
+            </div>
+        </div>
+        <div class="navbar navbar-inverse" role="navigation">
+            <div class="container">
+                <ul class="nav navbar-nav">
+                    <?php $user = Zend_Auth::getInstance()->getIdentity(); ?>                    
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;НСИ<b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <?php if ($user->role_id == '1') { ?>
+                                <li>
+                                    <a href="<?= $this->url(array('controller' => 'division', 'action' => 'load'), 'default'); ?>">
+                                        <span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Отделения
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?= $this->url(array('controller' => 'subDivision', 'action' => 'load'), 'default'); ?>">
+                                        <span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Предприятия
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?= $this->url(array('controller' => 'subDivision', 'action' => 'load-types'), 'default'); ?>">
+                                        <span class="glyphicon glyphicon-filter"></span>&nbsp;&nbsp;Типы предприятий
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?= $this->url(array('controller' => 'post', 'action' => 'load'), 'default'); ?>">
+                                        <span class="glyphicon glyphicon-tower"></span>&nbsp;&nbsp;Должности
+                                    </a>
+                                </li>                                
+                                <li role="separator" class="divider"></li>
+                            <?php } ?>
+                            <?php if (($user->role_id == '1') || ($user->role_id == '2')) { ?>
+
+
+                            <?php } ?>
+                            <li><a href="<?= $this->url(array('controller' => 'chapter', 'action' => 'load'), 'default'); ?>">
+                                    <span class="glyphicon glyphicon-link"></span>&nbsp;
+                                    <?=Services_DictionaryService::getDictionaryChapterFromSession()->getMultiple();?>
+                                       
+                                </a>
+                            </li>
+                            <li><a href="<?= $this->url(array('controller' => 'part', 'action' => 'load'), 'default'); ?>">
+                                    <span class="glyphicon glyphicon-link"></span>&nbsp;
+                                    <?=Services_DictionaryService::getDictionaryPartFromSession()->getMultiple();?>
+                                </a>
+                            </li>
+                            <li><a href="<?= $this->url(array('controller' => 'question', 'action' => 'load'), 'default'); ?>">
+                                    <span class="glyphicon glyphicon-question-sign"></span>&nbsp;&nbsp;Вопросы
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+                    <?php if ($user->role_id == '1') {
+                        ?>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <span class="glyphicon glyphicon-fire"></span>&nbsp;&nbsp;Администратор
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<?= $this->url(array('controller' => 'user', 'action' => 'loadexs'), 'default'); ?>">
+                                        <span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Экзаменаторы
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    <?php } ?>
+                    <li>
+                        <a href="<?= $this->url(array('controller' => 'user', 'action' => 'load'), 'default'); ?>">
+                            <span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Пользователи
+                        </a>
+                    </li>
+                    <?php
+                    if ($user->role_id == '4') {
+                        
+                    } else {
+                        ?>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <span class="glyphicon glyphicon-certificate"></span>&nbsp;&nbsp;Экзамен
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                
+                                <li><a href="<?= $this->url(array('controller' => 'adminExam', 'action' => 'load-theme'), 'default'); ?>">
+                                        <span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;Темы для экзаменов
+                                    </a>
+                                </li>
+                                <li><a href="<?= $this->url(array('controller' => 'criterion', 'action' => 'load'), 'default'); ?>">
+                                        <span class="glyphicon glyphicon-qrcode"></span>&nbsp;&nbsp;Критерии
+                                    </a>
+                                </li>
+                                <li>
+                                    <a  href="<?= $this->url(array('controller' => 'adminExam', 'action' => 'load'), 'default'); ?>">
+                                        <span class="glyphicon glyphicon-briefcase"></span>&nbsp;&nbsp;Экзамены
+                                    </a>
+                                </li>                               
+                                <li><a href="<?= $this->url(array('controller' => 'adminExam', 'action' => 'load-archive'), 'default'); ?>">
+                                        <span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Архив
+                                    </a>
+                                </li>  
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;Расписание
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<?= $this->url(array('controller' => 'schedule', 'action' => 'load'), 'default'); ?>">
+                                        <span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;Моё расписание
+                                    </a>
+                                </li>
+
+                                <li><a href="<?= $this->url(array('controller' => 'schedule', 'action' => 'load-division'), 'default'); ?>">
+                                        <span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;Расписание отделения
+                                    </a>
+                                </li>
+                                
+                                <li><a href="<?= $this->url(array('controller' => 'result', 'action' => 'load'), 'default'); ?>">
+                                        <span class="glyphicon glyphicon-fire"></span>&nbsp;&nbsp;Результаты
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+                    <?php } ?>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <span class="glyphicon glyphicon-wrench"></span>&nbsp;&nbsp;Параметры
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="<?= $this->url(array('controller' => 'PersonCompare', 'action' => 'index'), 'default'); ?>">
+                                    <span class="glyphicon glyphicon-wrench"></span>&nbsp;&nbsp;Предприятия
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="<?= $this->url(array('controller' => 'PersonCompare', 'action' => 'theme'), 'default'); ?>">
+                                    <span class="glyphicon glyphicon-wrench"></span>&nbsp;&nbsp;Темы
+                                </a>
+                            </li>
+                            
+                            <li>
+                                <a href="<?= $this->url(array('controller' => 'PersonCompare', 'action' => 'dictionary'), 'default'); ?>">
+                                    <span class="glyphicon glyphicon-wrench"></span>&nbsp;&nbsp;Разделы
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <p class="navbar-text h4">                        
+                        <?= Services_UserService::getInstance()->find($user->id)->getFIO() ?>
+                        <!--Services_DivisionService::getInstance()->find($user->division_id)->getSname()-->
+                    </p>
+                    <li>
+                        <a href="<?= $this->url(array('controller' => 'auth', 'action' => 'logout'), 'default'); ?>">
+                            <span class=" glyphicon glyphicon-off" style="color:white"></span>  Выход
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+
+
+        <div class="container">
+            <div class="col-sm-12">                
+                 <?=$this->layout()->content?>
+            </div>        
+        </div>
+    </body>
+</html>

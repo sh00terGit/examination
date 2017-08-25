@@ -1,0 +1,79 @@
+<?php include "../public/include/dataTables.phtml"; ?>
+
+
+
+<table class='defaultColor table table-hover  table-bordered ' align="center" id ="dataTable">
+    <caption><h4>Архив экзаменов</h4></caption>
+    <thead class="text-center">
+
+
+
+
+        <tr style="font-weight: bold;">
+            <th>Название экзамена</th>
+            <?php if ($this->roleId == 1) { ?>
+                <th>Экзаменатор</th>   
+                <th>Отделение</th>
+            <?php } ?>
+            <th class="noSort"></th>
+            <th class="noSort"></th>
+        </tr>
+    </thead>
+    <tbody>      
+
+    <?php foreach ($this->exams as $exam) { ?>
+        <tr>
+            <td><?= $exam->getFname() ?></td>
+            <?php if ($this->roleId == 1) { ?>
+                <td><?= $exam->getManager()->getFIO() ?></td>
+                <td><?= $exam->getDivision()->getSname() ?></td>
+
+            <?php } ?>
+               
+            <td class="text-center ">
+                <?php if(strtotime($exam->getDate()) <=  strtotime(date('Y-m-d', strtotime('-25 month'))) || $this->roleId == 1) { ?>
+                <a   class="btn btn-danger btn-sm" role="button" data-toggle="modal" data-target="#myModal<?= $exam->getId() ?>">
+                    удалить
+                </a>
+              
+                <!-- Modal window-->
+                <div class="modal fade" id="myModal<?= $exam->getId() ?>" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body ">
+                                <h4>Вы действительно хотите удалить этот раздел  ?</h4>
+                            </div>
+                            <div class="modal-footer ">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                    <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Отменить</button>
+                                <a class="btn btn-danger"  role="button" 
+                                   href="<?= $this->url(array('id' => $exam->getId(), 'archive' => 0), 'adminExamDelete') ?>">
+                                    <span class="glyphicon glyphicon-remove"></span>&nbsp;Удалить</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+    <?php } else {
+        //время удаления через 25 месяцев
+        $this->timeToDelete= date('Y-m-d',strtotime($exam->getDate()) + 3600*24*31*25); 
+     echo '<div data-toggle="tooltip" title="удаление будет доступно  '.$this->timeToDelete.'"><a class="btn btn-danger btn-sm disabled"   role="button">удалить
+                </a></div>';
+    }
+?>
+            </td>            
+            <td class="text-center ">
+                <a  data-toggle="tooltip" title="восстановить"  href="<?= $this->url(array('id' => $exam->getId()), 'adminExamRestore') ?>">
+                    <span class="glyphicon glyphicon-export" ></span>
+                </a>
+            </td>
+        </tr>
+    <?php } ?>
+
+</tbody>
+<tfoot></tfoot>
+</table>
+
+
+
+

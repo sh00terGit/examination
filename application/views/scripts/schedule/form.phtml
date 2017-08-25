@@ -1,0 +1,139 @@
+
+<form role="form" action="<?= $this->escape($this->form->getAction()) ?>"
+      method="<?= $this->escape($this->form->getMethod()) ?>">    
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+
+                <input type="hidden" name="hiddenid" value="<?= $this->form->hiddenid->getValue() ?>" id="hiddenid">
+                <div class="form-group">
+                    <dt id="exam_id-label"><label for="exam_id" class="optional"><?= $this->form->exam_id->getLabel() ?></label></dt>
+                    <select class="form-control" name="exam_id" id="exam_id" required="required">
+                        <?php
+                        $options = $this->form->exam_id->getMultioptions();
+                        foreach ($options as $option => $value) {
+                            $selected = $option == $this->form->exam_id->getValue() ? ' selected="selected"' : '';
+                            ?>
+                            <option  value="<?= $option ?>" <?= $selected ?>> <?= $value ?></option>
+
+                        <?php } ?>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <?= $this->form->subDivision ?>
+                </div>
+                
+                <div class="form-group">
+                    <dt id="managerId-label"><label for="manager_id" class="optional"><?= $this->form->manager_id->getLabel() ?></label></dt>
+                    <select class="form-control" name="manager_id" id="exam_id" required="required">
+                        <?php
+                        $options = $this->form->manager_id->getMultioptions();
+                        foreach ($options as $option => $value) {
+                            $selected = $option == $this->form->manager_id->getValue() ? ' selected="selected"' : '';
+                            ?>
+                            <option  value="<?= $option ?>" <?= $selected ?>> <?= $value ?></option>
+
+                        <?php } ?>
+                    </select>
+                </div>
+                
+                
+                <div class="form-group">
+                    <label for="dateStart" class="optional"><?= $this->form->dateStart->getLabel() ?></label>     
+                    <div class="input-group date">   
+                        <input required="required" type="text" name="dateStart" id ="ds" value="<?= $this->form->dateStart->getValue() ?>" class="form-control">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-th"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="dateEnd" class="optional"><?= $this->form->dateEnd->getLabel() ?></label>     
+                    <div class="input-group date">   
+                        <input  required="required" type="text" name="dateEnd" id="de" value="<?= $this->form->dateEnd->getValue() ?>" class="form-control">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-th"></span>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    <input name="<?= $this->form->getName(); ?>" id="<?= $this->form->getName(); ?>" 
+                           value="Зарегистрировать" class="btn  btn-success " type="submit">
+                </div>
+
+
+            </div>   <!--end col-sm-4-->
+            
+            
+            <div class="col-sm-3 col-sm-offset-1 ">
+                
+                <div class="form-group" style="margin-top: 0px;">
+                    <?= $this->form->criterion ?>
+                </div>
+                
+                <div class="form-group" style="margin-top: 30px;">
+                    <?= $this->form->time_pass ?>
+                </div>
+                
+                <div class="form-group" style="margin-top: 30px;">
+                    <?= $this->form->attempt ?>
+                </div>
+                
+                <div class="form-group" style="margin-top: 30px;">
+                    <?= $this->form->committee ?>
+                </div>
+            </div>
+                <div class="col-sm-3 col-sm-offset-1 ">
+                <div class="form-group" style="margin-top: 20px;">
+                    <?= $this->form->active ?>
+                </div>
+                
+                
+                
+                <div class="form-group" style="margin-top: 50px;">
+                    <?= $this->form->division ?>
+                </div>
+                
+                
+                <div class="form-group" style="margin-top: 60px;">
+                    <?= $this->form->authType ?>
+                </div>
+                
+                <div class="form-group" id="pass" style="display: none;">
+                    <?= $this->form->password ?>
+                </div>
+                
+                
+                
+                <div class="form-group">
+                    <?= $this->form->comment ?>
+                </div>
+            </div> <!--end col-sm-3-->
+            
+            
+        </div>  <!--end  row-->
+    </div>  <!--end container-->
+
+</form>
+
+
+<script>
+$(document).ready(function () {
+    
+    $("#division").change(function () {
+    var  division = $(this).prop('checked');
+    if(division === true) {
+        $('#subDivision').prop('disabled','disabled');
+        $('#subDivision').val('');
+    } else {
+        $('#subDivision').prop('disabled','');
+    }
+    });
+});
+
+
+</script>

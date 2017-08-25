@@ -1,0 +1,20 @@
+ <div class="modal-dialog modal-lg">
+        <div class="modal-content ">
+            <div class="modal-footer">
+                <div class="panel panel-danger">
+  <div class="panel-heading">
+    <h4 class="panel-title text-left">Ошибка авторизации</h4>
+  </div>
+  <div class="panel-body text-left alert-danger">
+      <p>  У вас нет доступа к данному разделу , вернитесь к экзаменам</p>
+      <a class="btn btn-danger pull-right"  role="button" 
+                                       href="<?= $this->url(array('controller' => 'pre-login', 'action' => 'index'), 'default'); ?>">
+                                        <span class="glyphicon glyphicon-log-out"></span>&nbsp;Вернуться </a>
+      
+  </div>
+</div>
+
+            </div>
+        </div>
+    </div>
+

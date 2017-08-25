@@ -1,0 +1,112 @@
+<?php include "../public/include/dataTables.phtml"; ?>
+
+<?php
+ if ($this->errorNoThemes == true) {
+     include "../public/include/noThemesToChange.phtml";
+ } else {
+?>
+<table class='defaultColor table table-hover  table-bordered ' align="center" id ="dataTable">
+    <caption><h4>Расписание экзаменов отделения</h4></caption>
+    <thead class="text-center">
+
+
+
+
+        <tr style="font-weight: bold;">
+            <th>Название экзамена</th>
+            <th>Дата начала</th>
+            <th>Дата окончания</th>
+            <th>Критерий</th>
+            <th>Тип</th>
+            <th>Активно</th>
+            <th>Экзаменатор</th> 
+            <th class="noSort"></th>
+            <th class="noSort"></th>
+            <th class="noSort"></th>
+            <th class="noSort"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        if (Services_UserSubDivisionService::getInstance()->fetchByManagerInArray(Zend_Auth::getInstance()->getIdentity()) == null) {
+            ?>
+        <td colspan="7" class="text-center">Не найдено выбранных предприятий!</td><td>
+            <a   data-toggle="tooltip" title="добавить"  href="<?= $this->url(array('controller' => 'PersonCompare', 'action' => 'index'), 'default'); ?>">
+                <span class="glyphicon glyphicon-wrench"></span>
+            </a>
+        </td>
+
+        <?php
+    } else {
+        ?>
+
+        <?php if ($this->schedules == null) { ?>
+
+            <td colspan="5" class="text-center">Не найдено записей </td><td>
+                <a   data-toggle="tooltip" title="добавить"  href="<?= $this->url(array('controller' => 'schedule', 'action' => 'add'), 'default'); ?>">
+                    <span class="glyphicon glyphicon-plus" style="color:green"></span>
+                </a>
+            </td>
+        <?php } ?>
+        <?php foreach ($this->schedules as $schedule) { ?>
+
+            <?php echo (time() > strtotime($schedule->getDateEnd())) ? "<tr class='bg-danger'>" : "<tr>"; ?> 
+
+            <td><?= $schedule->getExam()->getFname() ?></td>
+            <td><?= $schedule->getDateStart() ?></td>
+            <td><?= $schedule->getDateEnd() ?></td>
+            <td><?= $schedule->getCriterion()->getValueMeasure() ?></td>
+            
+            <td><?= $schedule->getAuthType() ?></td>
+            <td><?php echo ($schedule->getActive() == 1 ) ? 'да' : 'нет' ?></td>
+            <td><?= $schedule->getManager()->getFIO() ?></td>
+            
+            <td class="text-center ">
+                <a   data-toggle="tooltip" title="добавить пользователей"  href="<?= $this->url(array('scheduleId' => $schedule->getId()), 'scheduleAddUsers') ?>">
+                    <span class="glyphicon glyphicon-user" style="color:black"></span>
+                </a>
+            </td>
+            <td class="text-right ">
+                <a   title="удалить"  data-toggle="modal" data-target="#myModal<?= $schedule->getId() ?>">
+                    <span class="glyphicon glyphicon-remove" style="color:red"></span>
+                </a>
+
+                <!-- Modal window-->
+                <div class="modal fade" id="myModal<?= $schedule->getId() ?>" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body ">
+                                <h4>Вы действительно хотите удалить это расписание  ?</h4>
+                            </div>
+                            <div class="modal-footer ">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                    <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Отменить</button>
+                                <a class="btn btn-danger"  role="button" 
+                                   href="<?= $this->url(array('id' => $schedule->getId()), 'scheduleDelete') ?>">
+                                    <span class="glyphicon glyphicon-remove"></span>&nbsp;Удалить</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </td>
+            <td class="text-right ">
+                <a   data-toggle="tooltip" title="редактировать"  href="<?= $this->url(array('id' => $schedule->getId()), 'scheduleEdit') ?>">
+                    <span class="glyphicon glyphicon-pencil" style="color:orange"></span>
+                </a>
+            </td>
+            <td class="text-right">
+                <a   data-toggle="tooltip" title="добавить"  href="<?= $this->url(array('controller' => 'schedule', 'action' => 'add'), 'default'); ?>">
+                    <span class="glyphicon glyphicon-plus" style="color:green"></span>
+                </a>
+            </td>
+        </tr>
+    <?php } ?>
+<?php } ?>
+</tbody>
+<tfoot></tfoot>
+</table>
+ <?php } ?>
+
+
+

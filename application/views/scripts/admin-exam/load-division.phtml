@@ -1,0 +1,60 @@
+<?php include "../public/include/dataTables.phtml"; ?>
+
+
+
+<table class='defaultColor table table-hover  table-bordered ' align="center" id ="dataTable">
+    <caption>
+        <h4>Экзамены  
+<?=  Services_DivisionService::getInstance()
+                            ->find(Zend_auth::getInstance()->getIdentity()->division_id)
+        ->getSname(); ?>
+        </h4>
+    </caption>
+    <thead class="text-center">
+
+
+
+
+        <tr style="font-weight: bold;">
+            <th>Тема экзамена</th>
+            <th>Название экзамена</th>
+            <th>Критерий</th>
+            <th>Экзаменатор</th>
+            <th class="noSort"></th>
+            <th class="noSort"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if ($this->exams != null) { ?>
+
+    <?php foreach ($this->exams as $exam) { ?>
+        <tr>
+            <td><?= $exam->getTheme()->getSname() ?></td>
+            <td><?= $exam->getFname() ?></td>
+            <td><?= $exam->getCriterion()->getValueMeasure() ?></td>
+            <td><?= $exam->getManager()->getFIO() ?></td>
+
+            <td class="text-center">
+                <a   data-toggle="tooltip" title="добавить экзамен себе"    
+                     href="<?= $this->url(array('id' => $exam->getId()), 'adminExamCloneExamData') ?>">
+                    <span class="glyphicon glyphicon-floppy-save" style="color: black;" ></span>
+                </a>
+            </td>
+            <td class="text-center ">
+                <a   data-toggle="tooltip" title="переопределить экзаменатора на себя" 
+                     href="<?= $this->url(array('id' => $exam->getId()), 'adminExamOverrideManagerExam') ?>">
+                    <span class="glyphicon glyphicon-import" style="color: red;"></span>
+                </a>
+            </td>
+            
+        </tr>
+    <?php } ?>
+        <?php } ?>
+
+</tbody>
+<tfoot></tfoot>
+</table>
+
+
+
+

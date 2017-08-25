@@ -1,0 +1,87 @@
+<script> urlRedirectSelect = '/question/select';</script>
+<script type="text/javascript" src="/js/selectAjax.js"></script>
+
+<div class="col-sm-6">
+    <h4>Редактирование вопроса</h4>
+    <?= $this->form; ?>
+    <a  class="btn-default btn pull-left"  style="text-decoration: none"
+        href="<?= $this->url(array('controller' => 'question', 'action' => 'load'), 'default'); ?>">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;&nbsp;Отмена</a>
+
+</div>
+
+
+<div class="col-sm-6" style="margin-top: 20px;">
+    <?php if ($this->answers == null) { ?>
+        <p>Еще нет ответов к этому вопросу</p>
+        <a class="btn btn-primary"  role="button" 
+           href="<?= $this->url(array('id' => $this->questionId), 'answerAdd') ?>">
+            <span class="glyphicon glyphicon-check"></span>&nbsp;Добавить ответ</a>
+
+
+
+    <?php } else { ?> 
+        <table class="table table-condensed ">
+            <caption>Ответы</caption>
+            <thead>
+                <tr>
+                    <th>Ответ</th>
+                    <th>Оценка</th>
+                    <th colspan="3"></th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($this->answers as $answer) { ?>
+                    <tr>
+                        <td><?= $answer->getContent() ?></td>
+                        <td><?php echo ($answer->getPositive() == 1) ? 'правильный' : 'не правильный'; ?></td>
+
+
+                        <td class="text-right ">
+                            <a   title="удалить"  data-toggle="modal" data-target="#myModal<?= $answer->getId() ?>">
+                                <span class="glyphicon glyphicon-remove" style="color:red"></span>
+                            </a>
+
+                        </td>    
+
+                        <!-- Modal window-->
+                <div class="modal fade" id="myModal<?= $answer->getId() ?>" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body ">
+                                <h4>Вы действительно хотите удалить этот раздел  ?</h4>
+                            </div>
+                            <div class="modal-footer ">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                    <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Отменить</button>
+                                <a class="btn btn-danger"  role="button" 
+                                   href="<?= $this->url(array('id' => $answer->getId()), 'answerDelete') ?>">
+                                    <span class="glyphicon glyphicon-remove"></span>&nbsp;Удалить</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <td class="text-right ">
+                    <a   data-toggle="tooltip" title="редактировать"  href="<?= $this->url(array('id' => $answer->getId()), 'answerEdit') ?>">
+                        <span class="glyphicon glyphicon-pencil" style="color:orange"></span>
+                    </a>
+                </td>
+                <td class="text-right">
+                    <a   data-toggle="tooltip" title="добавить"  href="<?= $this->url(array('id' => $this->questionId), 'answerAdd') ?>">
+                        <span class="glyphicon glyphicon-plus" style="color:green"></span>
+                    </a>
+                </td>
+            <?php } ?>
+
+
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+<?php } ?>

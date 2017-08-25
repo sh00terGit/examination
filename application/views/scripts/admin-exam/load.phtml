@@ -1,0 +1,110 @@
+<?php include "../public/include/dataTables.phtml"; ?>
+<script src="../public/js/accessDeniedMessage.js"></script>
+<?php 
+ if ($this->errorNoThemes == true) {
+     include "../public/include/noThemesToChange.phtml";
+ } else {
+?>
+
+<table class='defaultColor table table-hover  table-bordered ' align="center" id ="dataTable">
+    <caption><h4>Экзамены</h4></caption>
+    <thead class="text-center">
+
+
+
+
+        <tr style="font-weight: bold;">
+            <th>Предприятие</th>
+            <th>Экзаментатор</th>
+            <th>Тема экзамена</th>            
+            <th>Название экзамена</th>
+            
+            <?php if ($this->userIdentity->role_id == 1) { ?>  
+                <th>Отделение</th>
+            <?php } ?>
+            <th class="noSort"></th>
+            <th class="noSort"></th>
+            <th class="noSort"></th>
+            <th class="noSort"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if ($this->exams == null) { ?>
+
+        <td colspan="5" class="text-center">Не найдено записей </td><td>
+            <a   data-toggle="tooltip" title="добавить"  href="<?= $this->url(array('controller' => 'adminExam', 'action' => 'add'), 'default'); ?>">
+                <span class="glyphicon glyphicon-plus" style="color:green"></span>
+            </a>
+        </td>
+    <?php } else { ?>
+
+    <?php foreach ($this->exams as $exam) { ?>
+        <tr>
+            <td><?= $exam->getManager()->getSubDivision()->getSname() ?></td>
+            <td><?= $exam->getManager()->getFIO() ?></td>
+            <td><?= $exam->getTheme()->getSname() ?></td>
+            <td><?= $exam->getFname() ?></td>
+            <?php if ($this->userIdentity->role_id == 1) { ?>
+                <td><?= $exam->getDivision()->getSname() ?></td>
+
+            <?php } ?>
+            <?php  if(($this->userIdentity->subdivision_id === $exam->getManager()->getSubDivision()->getId()) or
+                        $this->userIdentity->role_id == 1) {
+                $urlAddQuestions = $this->url(array('id' => $exam->getId(), 'typeBilet' => $exam->getType()), 'adminExamFilling');
+                $urlDelete = $this->url(array('id' => $exam->getId(), 'archive' => 1), 'adminExamDelete');
+                $urlUpdate = $this->url(array('id' => $exam->getId()), 'adminExamEdit') ;
+            } else {
+               $urlUpdate = $urlDelete = $urlAddQuestions = '#accessDenied';
+                
+            }
+                ?>
+            <td class="text-center ">
+                <a   data-toggle="tooltip" title="добавить вопросы" href="<?=$urlAddQuestions ?>">
+                    <span class="glyphicon glyphicon-question-sign"></span>
+                </a>
+            </td>
+
+            <td class="text-center ">
+                <a   title="удалить"  data-toggle="modal" data-target="#myModal<?= $exam->getId() ?>">
+                    <span class="glyphicon glyphicon-remove" style="color:red"></span>
+                </a>
+
+                <!-- Modal window-->
+                <div class="modal fade" id="myModal<?= $exam->getId() ?>" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body ">
+                                <h4>Вы действительно хотите поместить экзамен в архив  ?</h4>
+                            </div>
+                            <div class="modal-footer ">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                    <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Отменить</button>
+                                <a class="btn btn-danger"  role="button" 
+                                   href="<?=$urlDelete ?>">
+                                    <span class="glyphicon glyphicon-remove"></span>&nbsp;Удалить</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </td>
+            <td class="text-center ">
+                <a   data-toggle="tooltip" title="редактировать"  href="<?= $urlUpdate ?>">
+                    <span class="glyphicon glyphicon-pencil" style="color:orange"></span>
+                </a>
+            </td>
+            <td class="text-center">
+                <a   data-toggle="tooltip" title="добавить"  href="<?= $this->url(array('controller' => 'adminExam', 'action' => 'add'), 'default'); ?>">
+                    <span class="glyphicon glyphicon-plus" style="color:green"></span>
+                </a>
+            </td>
+        </tr>
+    <?php } ?>
+        <?php } ?>
+</tbody>
+<tfoot></tfoot>
+</table>
+ <?php } ?>
+
+
+

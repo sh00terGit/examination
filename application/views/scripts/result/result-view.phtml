@@ -1,0 +1,60 @@
+<?php include "../public/include/dataTables.phtml"; ?>
+Тема экзамена : <b><?=$this->infoSchedule->getExamThemeFname()?></b> <br>
+Экзамен:<b> <?=$this->infoSchedule->getExamFname()?> </b><br>
+Даты проведения :<b> <?=$this->infoSchedule->getDateStart()?> -  <?=$this->infoSchedule->getDateEnd()?> </b><br>
+Экзаменатор :<b> <?=$this->infoSchedule->getManagerFullInfo($short = FALSE)?> </b><br>
+
+Экзаменуемый : <b><?=$this->userInfo->getUserFullInfo($short = false)?> </b><br>
+Критерий: <b><?=$this->userInfo->getCriterionValue()?> </b><br>
+Оценка: <b><?php echo $this->userInfo->getMark() == 1 ? 'сдан' : 'не сдан' ?></b><br>
+
+
+
+
+<table class="table table-bordered  text-center" >
+    <thead>
+    <tr><th>Текст вопроса</th>
+        <th colspan="2">Ответы пользователя</th>
+        <th>Правильный ответ</th>
+    </tr>
+    <tr>
+        <th ></th> 
+        <th>Правильно</th>
+        <th>неправильно</th>
+        <th></th>
+    </tr>
+</thead>
+<tbody >
+
+    <?php foreach ($this->result as $infoExam) { ?>    
+        <tr >
+            <td class="text-left text-info"><strong><i><?= $infoExam->getQuestion() ?></i></strong></td>
+            <td ><?php
+                if ($infoExam->getUserPositiveAns() != null) {
+                    foreach ($infoExam->getUserPositiveAns() as $ans)
+                        echo '<p class ="bg-success">' . $ans . "</p>";
+                }
+                ?>
+
+            </td>
+            <td><?php
+                if ($infoExam->getUserNegativeAns() != null) {
+                    foreach ($infoExam->getUserNegativeAns() as $ans)
+                        echo '<div class ="bg-danger">' . $ans . "<br></div";
+                }
+                ?></td>
+            <td class="text-info"><?php
+                if (count($infoExam->getExamPositiveAns()) != null) {
+                    foreach ($infoExam->getExamPositiveAns() as $ans) {
+                        echo "<strong><i>" . $ans . "</strong></i><br>";
+                    }
+                }
+                ?></td>
+        </tr>
+    <?php } ?>
+</tbody>
+
+</table>
+<a  class="btn-default btn pull-left"  style="text-decoration: none"
+    href="<?=$this->refUrl;?>">
+    <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;&nbsp;Назад</a>

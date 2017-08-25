@@ -1,0 +1,56 @@
+<?php include "../public/include/dataTables.phtml"; ?>
+
+
+<table class='defaultColor table table-hover  table-bordered ' align="center" id ="dataTable">
+    <caption><h4>Результаты</h4></caption>
+    <thead class="text-center">
+
+
+
+
+        <tr style="font-weight: bold;">
+            <th>Тема</th>
+            <th>Экзамен</th>
+            <th>Дата начала</th> 
+            <th>Дата окончания</th> 
+            <th>Экзаменатор</th>
+            <th class="noSort"></th>
+        </tr>
+    </thead>
+
+    <tfoot class="text-center">
+        <tr >
+            <th>Тема</th>
+            <th>Экзамен</th>
+            <th>Дата начала</th> 
+            <th>Дата окончания</th> 
+            <th>Экзаменатор</th>
+        </tr>
+    </tfoot>
+
+    <tbody>
+        <?php foreach ($this->results as $result) { ?>
+            <tr>
+                <td><?= $result->getExamThemeFname() ?></td>
+                <td><?= $result->getExamFname() ?></td>
+                <td><?= $result->getDateStart() ?></td>
+                <td><?= $result->getDateEnd() ?></td>
+                <td><?= $result->getManagerFullInfo(true) ?></td>
+                <td class="text-center">
+                    <a data-toggle="tooltip" title="посмотреть результаты"  href="<?= $this->url(array('id' => $result->getId()), 'scheduleResult') ?>">
+                        <span class=" glyphicon glyphicon-eye-open" ></span>
+                    </a>
+                </td>
+            </tr>
+        <?php } ?>
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+

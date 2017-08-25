@@ -1,0 +1,70 @@
+<h4 style="color: black;"> <?= date('d.m.Y') ?></h4>
+<h3 ><?= $this->exam->getFname() ?></h3>
+<h5 style="color: black;">экзаменуемый : <?= $this->user->getFIO() ?>
+    &nbsp;
+    <?= $this->user->getSubDivision()->getSname() ?></h5>
+
+<?php if ($this->schedule->getCommittee()) { ?>
+    <h5 style="color: black;">экзаменатор : <?= $this->schedule->getManager()->getFIO() ?>
+        &nbsp;
+        <?= $this->schedule->getManager()->getSubDivision()->getSname() ?></h5>
+    <h5 style="color: black;">Комиссия в составе :   <?= $this->schedule->getCommittee() ?></h5>
+<?php } else {
+    ?>
+    <h5 style="color: black;">экзаменатор : <?= $this->schedule->getManager()->getFIO() ?>&nbsp;
+        <?= $this->schedule->getManager()->getSubDivision()->getSname() ?></h5>
+<?php } ?>
+<?php if ($this->schedule->getTimePass() != 0) { ?>
+    <h5 id="timer"></h5>
+    <?php } ?>
+
+<?php if ($this->schedule->getTimePass() != 0) { ?>
+    <script>
+        $(document).ready(function () {
+
+            //            setTimeout(function () {
+            //                $('#submit').click();
+            //            }, < $this->schedule->getTimePass() * 60 * 1000 >);
+
+            testTimer(<?= $this->schedule->getTimePass() * 60 ?>);
+
+
+        });
+
+        function testTimer(startTime) {
+
+            var time = startTime;
+            var hour = parseInt(time / 3600);
+            if (hour < 1)
+                hour = 0;
+            time = parseInt(time - hour * 3600);
+            if (hour < 10)
+                hour = '0' + hour;
+            var minutes = parseInt(time / 60);
+            if (minutes < 1)
+                minutes = 0;
+            time = parseInt(time - minutes * 60);
+            if (minutes < 10)
+                minutes = '0' + minutes;
+            var seconds = time;
+            if (seconds < 10)
+                seconds = '0' + seconds;
+
+            document.getElementById("timer").innerHTML = 'Осталось времени ' + hour + ':' + minutes + ':' + seconds;
+            startTime--;
+            if (startTime >= 0) {
+                //если нет то повторяем процедуру заново
+                stopTimer = setTimeout(function () {
+                    testTimer(startTime);
+                }, 1000);
+                //если закончилось, то выводим  отправляем данные на сервер
+            } else {
+                $('#submit').click();
+                clearTimeout(stopTimer);
+
+            }
+        }
+
+
+    </script>
+<?php } ?>

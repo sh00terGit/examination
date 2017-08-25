@@ -1,0 +1,28 @@
+<!--
+Для файла views\scripts\person-compare\formUserDivision.phtml
+Функция выбора всех чекбоксов внутри collapseid 
+<input  type="checkbox" onclick="checkAll(this)" id ="$type->getId()">
+
+-->
+<script>
+function CheckAll(obj)
+{
+  var form = document.getElementsByTagName('form');
+  var inputs = form[0].getElementsByTagName("input");
+  for ( var i = 0; i < inputs.length; i++ )
+    if ( (inputs.item(i).type) && (inputs.item(i).type==="checkbox" ) )
+      inputs.item(i).checked = obj.checked;
+}
+
+</script>
+
+<h4>Мои темы экзаменов</h4>
+<?php if($this->errorNoAviableThemes == true ) {
+    include "../public/include/noThemesAviable.phtml";
+}
+else { ?>
+    <b>отметить все</b>&nbsp;&nbsp;<input name="check" type="checkbox" onClick="CheckAll(this)">
+   <?=$this->form; ?>
+
+<?php } ?>
+

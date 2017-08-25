@@ -1,0 +1,103 @@
+<?php include "../public/include/dataTables.phtml"; ?>
+
+<table class='defaultColor table table-hover  table-bordered ' align="center" id ="dataTable">
+    <caption><h4>Список 
+        <?=Services_DictionaryService::getDictionaryChapterFromSession()->getMultiple_roditelni();?></h4></caption>
+    <thead class="text-center">
+
+
+
+
+        <tr style="font-weight: bold;">
+            <th>Полное наименование</th>
+            <th>Короткое наименование</th>
+            <?php if ($this->roleId == 1) { ?>  
+                <th>Архив</th> 
+                <th>Отделение</th>  
+            <?php } ?>
+            <th class="noSort"></th>
+            <th class="noSort"></th>
+            <th class="noSort"></th>
+        </tr>
+    </thead>
+    <tbody>
+             <?php if($this->chapters == null ) { ?>
+        
+    <td colspan="4" class="text-center">Не найдено записей </td>
+    <td>
+        <a   data-toggle="tooltip" title="добавить"  href="<?= $this->url(array('controller' => 'chapter', 'action' => 'add'), 'default'); ?>">
+                        <span class="glyphicon glyphicon-plus" style="color:green"></span>
+                    </a>
+    </td>
+        <?php } ?>
+        <?php foreach ($this->chapters as $chapter) { ?>
+            <tr>
+                <td><?= $chapter->getFname() ?></td>
+                <td><?= $chapter->getSname() ?></td>
+                <?php if ($this->roleId == 1) { ?>
+                    <td><?php if ($chapter->getArchive() == '0') { ?> 
+                            нет 
+
+                        <?php } ?>
+                        <?php if ($chapter->getArchive() == '1') { ?> 
+                            да
+                        <?php } ?>
+                    </td>
+                    <td>
+                        <?= $chapter->getDivisionId()->getSname(); ?> 
+                    </td>
+                <?php } ?>
+
+
+                <td class="text-right ">
+                    <a   title="удалить"  data-toggle="modal" data-target="#myModal<?=$chapter->getId()?>">
+                        <span class="glyphicon glyphicon-remove" style="color:red"></span>
+                    </a>
+                    
+                </td>    
+                    
+                    <!-- Modal window-->
+                    <div class="modal fade" id="myModal<?=$chapter->getId()?>" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body ">
+                                    <h4>Вы действительно хотите удалить этот раздел  ?</h4>
+                                </div>
+                                <div class="modal-footer ">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                                        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Отменить</button>
+                                    <a class="btn btn-danger"  role="button" 
+                                       href="<?= $this->url(array('id' => $chapter->getId()), 'chapterDelete') ?>">
+                                        <span class="glyphicon glyphicon-remove"></span>&nbsp;Удалить</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                
+                <td class="text-right ">
+                    <a   data-toggle="tooltip" title="редактировать"  href="<?= $this->url(array('id' => $chapter->getId()), 'chapterEdit') ?>">
+                        <span class="glyphicon glyphicon-pencil" style="color:orange"></span>
+                    </a>
+                </td>
+                <td class="text-right">
+                    <a   data-toggle="tooltip" title="добавить"  href="<?= $this->url(array('controller' => 'chapter', 'action' => 'add'), 'default'); ?>">
+                        <span class="glyphicon glyphicon-plus" style="color:green"></span>
+                    </a>
+                </td>
+            </tr>
+        <?php } ?>
+
+    </tbody>
+    <tfoot></tfoot>
+</table>
+
+
+
+
+
+
+
+
+

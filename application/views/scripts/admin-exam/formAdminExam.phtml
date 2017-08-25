@@ -1,0 +1,136 @@
+<style>
+    a {
+        color: black;
+    }
+    a:hover {
+        color: #04519b;
+    }
+</style>
+<form action="<?= $this->escape($this->form->getAction()) ?>"
+      method="<?= $this->escape($this->form->getMethod()) ?>">
+    <input type="hidden" name="hiddenid" value="<?= $this->form->hiddenid->getValue() ?>">
+    <input type="hidden" name="division_id" value="<?= $this->form->division_id->getValue() ?>">
+    <input type="hidden" name="manager_id" value="<?= $this->form->manager_id->getValue() ?>">
+    <div class="col-sm-6 leftcol">
+        <div class="form-group">
+
+            <?= $this->form->theme ?>
+        </div>
+        
+        <div class="form-group">
+
+            <?= $this->form->fname ?>
+        </div>
+
+        <div class="form-group">
+
+            <label for="sname" class="optional"><?= $this->form->sname->getLabel() ?></label>     
+            <input  size="30" type="text"  name="sname" value="<?= $this->form->sname->getValue() ?>" class="form-control">
+
+        </div>
+
+<!--        <div class="form-group">
+            <label for="committee" class="optional">< $this->form->committee->getLabel() ?></label>     
+            <textarea style="resize: none; "rows="3" cols="57"  name="committee" class="form-control">< $this->form->committee->getValue() ?></textarea>
+
+        </div>-->
+
+        <div class="form-group">
+            <label for="comment" class="optional"><?= $this->form->comment->getLabel() ?></label>     
+            <textarea style="resize: none; "rows="3" cols="57"  name="comment"  class="form-control"><?= $this->form->comment->getValue() ?></textarea>
+
+        </div>
+
+
+
+
+    </div>
+
+
+
+
+    <div  style="padding-top:20px;" class="rightcol">
+        <?php if (isset($this->form->type)) { ?>
+            <div  class="col-sm-3 text-right">
+                <label for="type" class="optional"><?= $this->form->type->getLabel() ?></label>
+            </div>
+            <div class="col-sm-3">
+
+                <div class="form-group">
+                    <input type="hidden" name="type" value="0">
+                    <input type="checkbox" name="type" id="type" value="1">
+                </div>
+            </div>
+        <?php } ?>
+    <div  class="col-sm-3 text-right">
+            <p>&nbsp;</p>
+            <p><label for="chapters[]" class="optional">
+                <?=Services_DictionaryService::getDictionaryChapterFromSession()->getMultiple()?>
+                </label>  </p>
+        </div>
+        <div class=" col-sm-3">
+
+            <div class="form-group">
+                <?= $this->form->chapters ?>
+            </div>
+        </div>
+    </div>
+
+
+<!--        <div  class="col-sm-3 text-right">
+            <p>&nbsp;</p>
+            <label for="criterion" class="optional">Критерий</label>  
+        </div>
+        <div class="col-sm-3">
+
+            <div class="form-group">
+                < $this->form->criterion ?>
+            </div>
+        </div>-->
+
+<!--        <div class="col-sm-3 text-right">
+            <div class="form-group">
+                <label for="time_pass" class="optional">< $this->form->time_pass->getLabel() ?></label>  
+            </div>
+
+        </div>
+        <div class="col-sm-3">
+
+            <div class="form-group">
+                <input placeholder="по умолчанию бесконечно" type="text" name="time_pass" value="< $this->form->time_pass->getValue() ?>" class="form-control">
+            </div>
+        </div>-->
+
+<!--        <div class="col-sm-3 text-right">
+            <div class="form-group">
+                <label for="attempt" class="optional">< $this->form->attempt->getLabel() ?></label>  
+            </div>
+
+        </div>
+        <div class="col-sm-3">
+
+            <div class="form-group">
+                <input placeholder="по умолчанию бесконечно" type="text" name="attempt" value="< $this->form->attempt->getValue() ?>" class="form-control">
+            </div>
+        </div>-->
+
+        
+
+
+
+
+
+
+
+
+    <div class="clearfix"></div>
+
+    <div class="form-group">
+        <input name="<?= $this->form->getName(); ?>" id="<?= $this->form->getName(); ?>" 
+               value="Зарегистрировать" class="btn  btn-success " type="submit">
+    </div>
+
+
+
+</form>
+

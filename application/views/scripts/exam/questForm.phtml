@@ -1,0 +1,38 @@
+
+
+<form  action="<?= $this->escape($this->form->getAction()) ?>"
+
+       method="<?= $this->escape($this->form->getMethod()) ?>">
+    <table class="table table-responsive table-hover">
+        <thead>
+        <th>Вопрос</th>
+        <th>Ответ</th>
+        </thead>
+        <tbody
+        <tr>
+            <?php foreach ($this->questions as $question) {
+                $idq = $question->getId();
+                ?>
+        <input type="hidden" name="questions[]" value="<?=$idq?>">
+                <td style="width: 50%"> 
+                <span class="glyphicon glyphicon-question-sign" style="color: #1474ac"></span>
+                    <span class="h4 "><?= $this->form->$idq->getLabel(); ?></span>
+                </td>
+                <td style="width: 50%">
+                    <?php
+                    $options = $this->form->$idq->getMultioptions();
+                    foreach ($options as $option => $value) {
+                        ?>
+                    <input type="checkbox" value="<?= $option ?>" name ="<?= $idq ?>[]">  <?= $value ?><br>
+
+            <?php } ?>
+                </td>
+            </tr> 
+    <?php } ?>
+        </tbody>
+    </table>
+<?=$this->form->countQuestions ?> 
+<?=$this->form->examId ?> 
+    <div class="text-right"><?= $this->form->submit ?></div>
+</form>
+

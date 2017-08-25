@@ -1,0 +1,53 @@
+<form action="<?= $this->escape($this->form->getAction()) ?>"
+      method="<?= $this->escape($this->form->getMethod()) ?>">
+    <div class="col-sm-12">
+        <div class="col-sm-6">
+            <?php 
+            
+//            Беоем типы предприятий и сортируем предприятия отделения 
+               $types = Services_SubDivisionService::getInstance()
+                    ->fetchSubdivisionTypes($this->divisionId);
+            foreach ($types as $type ) { ?>
+                <div class="list-group">                
+                    <div class="list-group-item list-group-item-heading  h4 text-info">
+                    <a data-toggle="collapse" href="#collapse<?=$type->getId()?>">
+                        <?=$type->getSname()?>
+             <span class="glyphicon glyphicon-arrow-down pull-right"></span>
+                    </a>
+                      <!--отметить все-->
+                        <div class="pull-right" style="padding-right: 1em;">
+                            <small> отметить все</small> 
+                            <input  type="checkbox" onclick="checkAll(this)" id ="<?=$type->getId()?>">
+                        </div>
+                        <!--    /отметить все-->
+                        
+                        
+                        </div>
+                <div id="collapse<?=$type->getId()?>" class="panel-collapse collapse"> 
+                        
+                        <!--Название внутреннего предприятия -->
+                        <?php foreach ($this->subDivisions as $subDivision) {
+                                if ($subDivision->getOwner()->getId() == $type->getId() ) { 
+                                    $subDivName = 'subDivision' . $subDivision->getId();  ?>
+                        <label class="list-group-item text-left">  
+                                <?=$this->form->$subDivName ?>
+                        </label>
+                        <?php   }
+                            } ?>
+                    </div>
+                
+            </div>
+            <?php } ?>
+
+        </div>
+        <div class="clearfix"></div>
+        
+        <?=$this->form->manager_id?>
+        
+            <button style="margin-right: 10px;" name="submit"                                    
+                                    value="изменить" class="btn-sm  btn-success " type="submit">
+                изменить &nbsp;<span class="glyphicon glyphicon-refresh"></span></button>
+    </div>
+
+
+</form>

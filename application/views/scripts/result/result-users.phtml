@@ -1,0 +1,62 @@
+<?php include "../public/include/dataTables.phtml"; ?>
+
+
+<table class='defaultColor table table-hover  table-bordered ' align="center" id ="dataTable">
+    <caption><h4>Результаты</h4></caption>
+    <thead class="text-center">
+
+
+
+
+        <tr style="font-weight: bold;">
+            <th>Дата сдачи</th>
+            <th>Пользователь</th>
+            <th>Критерий</th> 
+            <th>Оценка</th> 
+            <th class="noSort"></th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th>Дата сдачи</th>
+            <th>Пользователь</th>
+            <th>Критерий</th> 
+            <th>Оценка</th> 
+        </tr>
+
+    </tfoot>
+
+    <tbody>
+        <?php foreach ($this->results as $result) { ?>
+            <?php if ($result->getMark() == 1) { ?>
+                <tr class="success">
+                <?php } else { ?>
+                <tr class="danger">        
+                <?php } ?>
+
+                <td><?= $result->getDatePass() ?></td>
+                <td><?= $result->getUserFullInfo(true) ?></td>
+                <td><?= $result->getCriterionValue() ?></td>
+                <td><?php echo $result->getMark() == 1 ? 'сдан' : 'не сдан' ?></td>
+                <td class="text-center">
+                    <a data-toggle="tooltip" title="посмотреть результаты" 
+                       href="<?= $this->url(array('scheduleUserId' => $result->getId(), 'id' => $this->resultScheduleId), 'scheduleResultView') ?>">
+                        <span class=" glyphicon glyphicon-eye-open" ></span>
+                    </a>
+                </td>
+            </tr>
+        <?php } ?>
+    </tbody>
+
+</table>
+<a  class="btn-default btn pull-left"  style="text-decoration: none"
+    href="<?=$this->refUrl;?>">
+    <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;&nbsp;Назад</a>
+
+
+
+
+
+
+
+

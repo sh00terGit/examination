@@ -1,0 +1,47 @@
+<script type="text/javascript" src="/js/selectAjax.js"></script>
+<script> urlRedirectSelect = '/subDivision/select';</script>
+<script> 
+    $(document).ready(function () {
+        $('select[id][data-type~="parent"]').change(function () {
+         var parent_id = $(this).val();
+         if (parent_id !='') {
+             document.getElementById('addtype').style.display ='block';
+             document.getElementById('addtype').href = '/subDivision/add-type/'+ parent_id;
+         } else {
+             document.getElementById('addtype').style.display ='none';
+         }
+    });
+    });;
+</script>
+<div class="row">
+<div class="col-sm-6">
+<h4>Добавление предприятия</h4>
+<?= $this->form;?>
+</div>
+
+<div class="col-sm-2">
+    <div style='padding-top: 150px;'>
+    <a class="btn btn-primary" data-toggle="modal" href="/division/add-type" data-target="#myModal" style="display: none;" id='addtype'>Добавить тип</a>
+
+    
+    <!--модальное окно-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+    
+        <!--   / модальное окно-->
+    
+    
+    
+    </div>
+</div>
+</div>
+<div class="clearfix"></div>
+<div class="row">   
+<a  class="btn-default btn pull-left"  style="text-decoration: none"
+    href="<?=$this->url(array('controller' => 'subDivision', 'action' => 'load'),'default');?>">
+    <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;&nbsp;Отмена</a></td>
+</div>

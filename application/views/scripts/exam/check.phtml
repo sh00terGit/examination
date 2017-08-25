@@ -1,0 +1,50 @@
+
+<!-- сдал-->
+
+<?php if ($this->finalmark == 1) { ?>
+
+     <div class="modal-dialog modal-lg">
+        <div class="modal-content ">
+            <div class="modal-footer">
+                <div class="panel panel-success">
+  <div class="panel-heading">
+    <h4 class="panel-title text-left">Экзамен сдан</h4>
+  </div>
+  <div class="panel-body text-left alert-success">
+      <p>  Вы ответили на <?=$this->mark?> вопросов из <?=$this->countQuestions?></p>
+      <a class="btn btn-primary pull-right"  
+         href="<?= $this->url(array('controller' => 'index', 'action' => 'index'), 'default'); ?>">К экзаменам</a>
+      
+  </div>
+</div>
+<!--                <a class="btn btn-warning"  
+                   href="<?= $this->url(array('controller' => 'index', 'action' => 'index'), 'default'); ?>">Экзамен не сдан</a>-->
+            </div>
+        </div>
+    </div>
+
+<?php } else if ($this->finalmark == 0){ ?>
+<!--не сдал-->
+
+
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content ">
+            <div class="modal-footer">
+                <div class="panel panel-danger">
+  <div class="panel-heading">
+    <h4 class="panel-title text-left">Экзамен не сдан</h4>
+  </div>
+  <div class="panel-body text-left alert-danger">
+      <p>  Вы ответили на <?=$this->mark?> вопросов из <?=$this->countQuestions?></p>
+      <a class="btn btn-primary pull-right"  
+         href="<?= $this->url(array('controller' => 'index', 'action' => 'index'), 'default'); ?>">К экзаменам</a>
+      
+  </div>
+</div>
+<!--                <a class="btn btn-warning"  
+                   href="<?=$this->url(array('controller' => 'index', 'action' => 'index'), 'default'); ?>">Экзамен не сдан</a>-->
+            </div>
+        </div>
+    </div>
+
+<?php } ?>

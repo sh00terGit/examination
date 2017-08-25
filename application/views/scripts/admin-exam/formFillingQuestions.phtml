@@ -1,0 +1,127 @@
+<style>
+    a {
+        color: black;
+    }
+    a:hover {
+        color: #04519b;
+    }
+</style>
+<form action="<?= $this->escape($this->form->getAction()) ?>"
+      method="<?= $this->escape($this->form->getMethod()) ?>">
+    <div class="col-sm-12">
+        <div class="col-sm-6">
+            <div class="list-group">
+                <h3 class="list-group-item active list-group-item-heading">Все вопросы</h3>
+
+                <?php
+                $chapter = null;
+                $part = null;
+                foreach ($this->questions as $question) {
+
+                    $idq = $question->getId();
+                    $quest = "question$idq";
+                    if ($question->getChapter()->getId() != $chapter ||
+                            $question->getPart()->getId() != $part) {
+                        ?>
+                    </div>
+                    <div class="list-group-item text-left h4 text-info">
+                        <a data-toggle="collapse" class="text-info" href="#collapse<?= $question->getChapter()->getId() ?><?= $question->getPart()->getId() ?>">
+                            <?= $question->getChapter()->getFname() ?> /
+                            <?= $question->getPart()->getSname() ?></a>
+                    </div>
+                    <div id="collapse<?= $question->getChapter()->getId() ?><?= $question->getPart()->getId() ?>" class="panel-collapse collapse">    
+                        <?php
+                    }
+                    $chapter = $question->getChapter()->getId();
+                    $part = $question->getPart()->getId();
+                    ?>
+
+                    <label class="list-group-item text-left">                 
+                        <input type="checkbox"  name ="source_<?= $idq ?>">
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <a target="blank" href="<?= $this->url(array('id' => $idq), 'questionEdit') ?>"><?= $this->form->$quest->getLabel() ?></a>
+                    </label>
+
+                    <?php
+                }
+                ?>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="list-group">
+                <h3 class="list-group-item active list-group-item-heading">
+                    Вопросы к экзамену  
+                    <?php if(($this->typeBilet == 0) && (count($this->bilets)== 0) ||  ($this->typeBilet == 1) ) { ?>
+                    <a href="<?= $this->url(array('examId' => $this->examId), 'sectionAdd') ?>"
+                       class="btn-sm  btn-primary pull-right" style="text-decoration:none;" >
+                        <span class="glyphicon glyphicon-plus"></span>&nbsp;Добавить билет</a>
+                        
+                    <?php } ?>
+                </h3>
+
+                <?php foreach ($this->bilets as $bilet) { ?>
+                    <div class="list-group-item text-left ">
+                        <h4> &nbsp;
+                            <?php if ($this->typeBilet != 0) { ?>                           
+                                <a href ="<?= $this->url(array('examId' => $this->examId,'id' => $bilet->getId()), 'sectionEdit') ?>"><?= $bilet->getFname() ?></a>
+                            
+
+
+
+                                <a title="удалить" class="btn-sm btn-danger pull-right" style="text-decoration:none;"  role="button"  data-toggle="modal" data-target="#myModal<?= $bilet->getId() ?>">
+                                <span class="glyphicon glyphicon-remove" style="color:red"></span>&nbsp;Удалить
+                            </a>
+
+                            <!-- Modal window-->
+                            <div class="modal fade" id="myModal<?= $bilet->getId() ?>" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-body ">
+                                            <h4>Вы действительно хотите удалить этот раздел  ?</h4>
+                                        </div>
+                                        <div class="modal-footer ">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Отменить</button>
+                                            <a class="btn btn-danger"  role="button" 
+                                               href="<?= $this->url(array('id' => $bilet->getId()), 'sectionDelete') ?>">
+                                                <span class="glyphicon glyphicon-remove"></span>&nbsp;Удалить</a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                                <?php } ?>
+
+
+                            <button style="margin-right: 10px;" name="submit_<?= $bilet->getId() ?>"                                    
+                                    value="изменить" class="btn-sm  btn-success pull-right" type="submit">
+                                изменить &nbsp;<span class="glyphicon glyphicon-refresh"></span>
+                            </button>
+                        </h4>
+                    </div>
+
+                    <?php
+                    $questions = $bilet->getQuestions();
+                    foreach ($questions as $int => $question) {
+                        $idq = $question->getId();
+                        $biletId = $bilet->getId();
+                        $quest = "biletQuestion$idq";
+                        ?>
+                        <label class="list-group-item text-left"> 
+                            <input type ="hidden" value ="0" name="bilet_<?= $bilet->getId() ?>[destination_<?= $idq ?>]"/>
+                            <input type="checkbox" value="1" checked="checked" name ="bilet_<?= $bilet->getId() ?>[destination_<?= $idq ?>]">
+                            &nbsp;&nbsp;&nbsp;&nbsp; 
+                            <a target="blank" href="<?= $this->url(array('id' => $idq), 'questionEdit') ?>"><?= $this->form->$quest->getLabel() ?></a>
+                        </label>
+                    <?php } ?> 
+
+                <?php } ?>
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+</form>

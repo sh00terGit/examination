@@ -1,0 +1,19 @@
+
+<?php if ($this->errorNoUsers == true) { 
+     include "../public/include/noUsers.phtml";
+
+ } else { ?>
+    <div style="padding-left: 30px; padding-bottom: 10px;">
+        <h4>Формирование списка пользователей</h4>
+    </div>
+    <?= $this->form; ?>
+    <div style="position: fixed;bottom: 2em;left: -1.5em "> 
+
+        <a  class="btn-default btn pull-left"  style="text-decoration: none; margin-left: 28px;"
+            href="<?=$this->url(array('controller' => 'schedule', 'action' => 'load'),'default'); ?>">
+            <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;&nbsp;Назад к расписанию</a> &nbsp;&nbsp;&nbsp;&nbsp;
+
+    </div>
+<?php } ?>
+
+

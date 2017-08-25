@@ -1,0 +1,91 @@
+<?php include "../public/include/dataTables.phtml"; ?>
+
+<div class="col-sm-12">
+<table class='defaultColor table table-hover  table-bordered ' align="center" id ="dataTable">
+    <caption><h4>Список предриятий</h4></caption>
+    <thead class="text-center">
+
+
+
+
+        <tr style="font-weight: bold;">
+            <th>Отделение</th>
+            <th>Тип</th>
+            <th>Краткое название</th>
+            <th>Полное название</th>
+            
+            <th class="noSort"></th>
+            <th class="noSort"></th>
+            <th class="noSort"></th>
+        </tr>
+    </thead>
+    <tbody>
+     <?php if($this->divisions == null ) { ?>
+        
+    <td colspan="4" class="text-center">Не найдено записей </td>
+    <td>
+        <a   data-toggle="tooltip" title="добавить"  href="<?= $this->url(array('controller' => 'subDivision', 'action' => 'add'), 'default'); ?>">
+                        <span class="glyphicon glyphicon-plus" style="color:green"></span>
+                    </a>
+    </td>
+        <?php } ?>
+        <?php foreach ($this->divisions as $division) { ?>
+            <tr>
+                <td><?= $division->getDivision()->getSname() ?></td>
+                <td><?= $division->getOwner()->getSname() ?></td>
+                <td><?= $division->getSname() ?></td>
+                <td><?= $division->getFname() ?></td>
+                
+                
+                <td class="text-right ">
+                    <a   title="удалить"  data-toggle="modal" data-target="#myModal<?=$division->getId()?>">
+                        <span class="glyphicon glyphicon-remove" style="color:red"></span>
+                    </a>
+                    
+                </td>    
+                    
+                    <!-- Modal window-->
+                    <div class="modal fade" id="myModal<?=$division->getId()?>" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body ">
+                                    <h4>Вы действительно хотите удалить этот раздел  ?</h4>
+                                </div>
+                                <div class="modal-footer ">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                                        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Отменить</button>
+                                    <a class="btn btn-danger"  role="button" 
+                                       href="<?= $this->url(array('id' => $division->getId()), 'subDivisionDelete') ?>">
+                                        <span class="glyphicon glyphicon-remove"></span>&nbsp;Удалить</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                
+                <td class="text-right ">
+                    <a   data-toggle="tooltip" title="редактировать"  href="<?= $this->url(array('id' => $division->getId()), 'subDivisionEdit') ?>">
+                        <span class="glyphicon glyphicon-pencil" style="color:orange"></span>
+                    </a>
+                </td>
+                <td class="text-right">
+                    <a   data-toggle="tooltip" title="добавить"  href="<?= $this->url(array('controller' => 'subDivision', 'action' => 'add'), 'default'); ?>">
+                        <span class="glyphicon glyphicon-plus" style="color:green"></span>
+                    </a>
+                </td>
+            </tr>
+        <?php } ?>
+
+    </tbody>
+    <tfoot></tfoot>
+</table>
+</div>
+
+
+
+
+
+
+
+

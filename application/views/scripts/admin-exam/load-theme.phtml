@@ -1,0 +1,94 @@
+<?php include "../public/include/dataTables.phtml"; ?>
+<script src="../public/js/accessDeniedMessage.js"></script>
+
+<table class='defaultColor table table-hover  table-bordered ' align="center" id ="dataTable">
+    <caption>
+        <h4>
+            Темы для экзаменов
+        </h4>
+    </caption>
+    <thead class="text-center">
+
+
+
+
+        <tr style="font-weight: bold;">
+            <th>Полное наименование</th>
+            <th>Краткое наименование</th>
+            <th>Владелец</th>
+            <th class="noSort"></th>
+            <th class="noSort"></th>
+            <th class="noSort"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if ($this->themes == null) { ?>
+        <td colspan="4" class="text-center">Нет тем , добавьте новую </td><td>
+        <a   data-toggle="tooltip" title="добавить"  href="<?= $this->url(array('controller' => 'adminExam', 'action' => 'add-theme'), 'default'); ?>">
+                        <span class="glyphicon glyphicon-plus" style="color:green"></span>
+                    </a>
+    </td>
+    <?php 
+        } else {
+    foreach ($this->themes as $theme) { ?>
+        <tr>
+            <td><?= $theme->getFname() ?></td>
+            <td><?= $theme->getSname() ?></td>
+            <td><?= $theme->getManagerSubDivision()->getSname()?></td>
+            
+        <?php  if($this->userIdentity->subdivision_id === $theme->getManagerSubDivision()->getId() 
+                or $this->userIdentity == 1 ) {
+                $urlUpdate = $this->url(array('id' => $theme->getId()), 'adminExamEditTheme');
+                $urlDelete = $this->url(array('id' => $theme->getId()), 'themeDelete');
+            } else {
+               $urlDelete = $urlUpdate = '#accessDenied';                
+            }
+                ?>
+            <td class="text-right ">
+                    <a   title="удалить"  data-toggle="modal" data-target="#myModal<?=$theme->getId()?>">
+                        <span class="glyphicon glyphicon-remove" style="color:red"></span>
+                    </a>
+                    
+                </td>    
+                    
+                    <!-- Modal window-->
+                    <div class="modal fade" id="myModal<?=$theme->getId()?>" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body ">
+                                    <h4>Вы действительно хотите удалить эту тему  ?</h4>
+                                </div>
+                                <div class="modal-footer ">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                                        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Отменить</button>
+                                    <a class="btn btn-danger"  role="button" 
+                                       href="<?=$urlDelete  ?>">
+                                        <span class="glyphicon glyphicon-remove"></span>&nbsp;Удалить</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+            
+            <td class="text-center ">
+                <a   data-toggle="tooltip" title="редактировать"  href="<?=$urlUpdate ?>">
+                    <span class="glyphicon glyphicon-pencil" style="color:orange"></span>
+                </a>
+            </td>
+            <td class="text-center">
+                <a   data-toggle="tooltip" title="добавить"  href="<?= $this->url(array('controller' => 'adminExam', 'action' => 'add-theme'), 'default'); ?>">
+                    <span class="glyphicon glyphicon-plus" style="color:green"></span>
+                </a>
+            </td>
+            
+        </tr>
+    <?php } ?>
+        <?php } ?>
+
+</tbody>
+<tfoot></tfoot>
+</table>
+
+
+
+

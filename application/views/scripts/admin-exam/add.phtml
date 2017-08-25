@@ -1,0 +1,26 @@
+<style>
+    .check {
+        padding-top: 20px;
+    }
+</style>
+
+<?php if($this->errorNoChaptersToChange == true || $this->errorNoCriterionsToChange == true) {
+    if($this->errorNoChaptersToChange == true ) {
+        include "../public/include/noChaptersToChange.phtml";
+    }
+    if($this->errorNoCriterionsToChange == true){
+        include "../public/include/noCriterionsToChange.phtml";
+    }
+
+
+ } else {   ?>
+<div class="text-left">
+    <h4>Добавление экзамена</h4>
+<?= $this->form;?>   
+    <div class="clearfix"></div>
+<a  class="btn-default btn pull-left"  style="text-decoration: none"
+    href="<?=$this->url(array('controller' => 'adminExam', 'action' => 'load'),'default');?>">
+    <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;&nbsp;Отмена</a></td>
+</div>
+
+<?php } ?>

@@ -1,0 +1,25 @@
+ <div class="modal-dialog modal-lg">
+        <div class="modal-content ">
+            <div class="modal-footer">
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <h4 class="panel-title text-left">
+                            <span class="glyphicon glyphicon-tags"></span>&nbsp;&nbsp;Внимание! 
+                        </h4>
+                    </div>
+                    <div class="panel-body text-left alert-warning">
+                        <div  class=" h4 text-warning"> 
+                            <p> Удаление невозможно!</p> 
+                            <p> Вы пытаетесь удалить используемый(-ую) <?=$this->instance?>!!!</p>                           
+                        </div>
+                        
+                       
+                        <a class="btn  btn-default pull-right"  role="button"  style="margin-right: 20px;"
+                           href="<?= $this->url(array('controller' => 'admin', 'action' => 'index'), 'default'); ?>">
+                            <span class="glyphicon glyphicon-ok"></span>&nbsp;Понятно</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>

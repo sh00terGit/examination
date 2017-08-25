@@ -1,0 +1,25 @@
+<div class="modal-dialog modal-lg">
+    <div class="modal-content ">
+        <div class="modal-footer">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h4 class="panel-title text-left">
+                        <span class="glyphicon glyphicon-tags"></span>&nbsp;&nbsp;Внимание! 
+                    </h4>
+                </div>
+                <div class="panel-body text-left alert-warning">
+                    <h4 class="text-warning"> Для применения параметров нужно перезайти в систему!</h4>
+
+
+                    <a class="btn  btn-warning pull-right"  role="button" 
+                       href="<?= $this->url(array('controller' => 'auth', 'action' => 'logout-login'), 'default'); ?>">
+                        <span class="glyphicon glyphicon-log-out"></span>&nbsp;Выйти с системы </a>
+                        <a class="btn  btn-default pull-right"  role="button"  style="margin-right: 20px;"
+                       href="<?= $this->url(array('controller' => 'admin', 'action' => 'index'), 'default'); ?>">
+                        <span class="glyphicon glyphicon-ok"></span>&nbsp;Позже</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

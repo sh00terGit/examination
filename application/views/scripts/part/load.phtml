@@ -1,0 +1,102 @@
+<?php include "../public/include/dataTables.phtml"; ?>
+
+
+
+<table class='defaultColor table table-hover  table-bordered ' align="center" id ="dataTable">
+    <caption><h4>Список 
+        <?=Services_DictionaryService::getDictionaryPartFromSession()->getMultiple_roditelni();?></h4></caption>
+    <thead class="text-center">
+
+
+
+
+        <tr style="font-weight: bold;">
+            <th><?=Services_DictionaryService::getDictionaryChapterFromSession()->getFname();?></th>
+            <th>Полное наименование</th>            
+            <?php if ($this->roleId == 1) { ?>  
+                <th>Архив</th> 
+                <th>Отделение</th>  
+            <?php } ?>
+                <th class="noSort"></th>
+                <th class="noSort"></th>
+                <th class="noSort"></th>
+        </tr>
+    </thead>
+    <tbody>
+             <?php if($this->parts == null ) { ?>
+        
+    <td colspan="4" class="text-center">Не найдено записей </td><td>
+        <a   data-toggle="tooltip" title="добавить"  href="<?= $this->url(array('controller' => 'part', 'action' => 'add'), 'default'); ?>">
+                        <span class="glyphicon glyphicon-plus" style="color:green"></span>
+                    </a>
+    </td>
+        <?php } ?>
+        <?php foreach ($this->parts as $part) { ?>
+            <tr>
+                <td><?= $part->getChapter()->getFname() ?></td>
+                <td><?= $part->getFname() ?></td>
+                
+                <?php if ($this->roleId == 1) { ?>
+                    <td><?php if ($part->getArchive() == '0') { ?> 
+                            нет 
+
+                        <?php } ?>
+                        <?php if ($part->getArchive() == '1') { ?> 
+                            да
+                        <?php } ?>
+                    </td>
+                    <td>
+                        <?= $part->getChapter()->getDivisionId()->getSname(); ?> 
+                    </td>
+                <?php } ?>
+
+
+                <td class="text-right ">
+                    <a   title="удалить"  data-toggle="modal" data-target="#myModal<?=$part->getId()?>">
+                        <span class="glyphicon glyphicon-remove" style="color:red"></span>
+                    </a>
+                    
+<!-- Modal window-->
+<div class="modal fade" id="myModal<?=$part->getId()?>" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body ">
+                <h4>Вы действительно хотите удалить этот раздел  ?</h4>
+            </div>
+            <div class="modal-footer ">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Отменить</button>
+                <a class="btn btn-danger"  role="button" 
+                   href="<?= $this->url(array('id' => $part->getId()), 'partDelete') ?>">
+                    <span class="glyphicon glyphicon-remove"></span>&nbsp;Удалить</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+                </td>
+                <td class="text-right ">
+                    <a   data-toggle="tooltip" title="редактировать"  href="<?= $this->url(array('id' => $part->getId()), 'partEdit') ?>">
+                        <span class="glyphicon glyphicon-pencil" style="color:orange"></span>
+                    </a>
+                </td>
+                <td class="text-right">
+                    <a   data-toggle="tooltip" title="добавить"  href="<?= $this->url(array('controller' => 'part', 'action' => 'add'), 'default'); ?>">
+                        <span class="glyphicon glyphicon-plus" style="color:green"></span>
+                    </a>
+                </td>
+            </tr>
+        <?php } ?>
+
+    </tbody>
+    <tfoot></tfoot>
+</table>
+
+
+
+
+
+
+
+
+

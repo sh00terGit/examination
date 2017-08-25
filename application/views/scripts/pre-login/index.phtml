@@ -1,0 +1,72 @@
+<?php include "../public/include/dataTables.phtml"; ?>
+
+<div class="col-sm-12">
+<table class='defaultColor table table-hover  table-bordered ' align="center" id ="dataTable">
+    <thead class="text-center">
+        
+        <tr style="font-weight: bold;">
+            <th>Дата начала</th>
+            <th>Дата окончания</th>
+            <th>Экзамен</th>
+            <th>Экзаменатор</th>
+            <th>Регистрация</th>
+            <!--<th>Экзаменуемые</th>-->
+            <th class="noSort"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if(!empty($this->exams) ) { ?>
+        <?php foreach ($this->exams as $exam) { ?>
+            <tr>
+                <td>
+                    <?=$exam->getScheduleDateStart() ?>
+                </td>
+                
+                <td>
+                    <?=$exam->getScheduleDateEnd() ?>
+                </td>
+                
+                
+                <td>
+                    <?=$exam->getFname() ?>
+                </td>
+                
+                 <td>
+                    <?=$exam->getManager()->getFIO() ?>
+                </td>
+                
+                
+                <td>
+                    <?=$exam->getTypeAuth() ?>
+                </td>
+                
+                
+                
+               
+                
+                
+                <td class="text-center">
+                    <?php if ($exam->getActive()== 1) { ?>
+                    <a  class="btn-primary btn-sm"  style="text-decoration: none"
+                                                    href="<?= $this->url(array('scheduleId'=> $exam->getScheduleId() ),'getExam') ?>">
+                                сдать</a>
+                    <?php } 
+                        else { ?>
+                    <div class="text-danger">не активен</div>
+                        <?php } ?>
+                </td>
+        <?php } ?>
+    <?php } ?>
+
+    </tbody>
+    <tfoot></tfoot>
+</table>
+</div>
+
+
+
+
+
+
+
+
